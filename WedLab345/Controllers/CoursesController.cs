@@ -11,25 +11,42 @@ namespace WedLab345.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly Models.ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
         public CoursesController()
         {
             _dbContext = new ApplicationDbContext();
         }
+
+        public ActionResult Create()
+        {
+            var viewModel = new CourseViewModel
+            {
+                Categories = _dbContext.Categories.ToList()
+            };
+            return View(viewModel);
+        }
         // GET: Courses
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(CourseViewModel viewModel)
         {
-            var course = new Course
+            if (!ModelState.IsValid)
             {
+                viewModel.Categories = _dbContext.Categories.ToList();
+                return View("Create", viewModel);
+            }
+            var Course = new Course
+            {
+                //Categories = _dbContext.Categories.ToList()
                 LecturerId = User.Identity.GetUserId(),
                 DateTime = viewModel.GetDateTime(),
                 CategoryId = viewModel.Category,
                 Place = viewModel.Place
             };
-            _dbContext.Coures.Add(course);
+            _dbContext.Courses.Add(Course);
             _dbContext.SaveChanges();
+            //  return View(viewModel);
             return RedirectToAction("Index", "Home");
         }
     }
