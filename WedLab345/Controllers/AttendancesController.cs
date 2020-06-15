@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WedLab345.DTOs;
 using WedLab345.Models;
 
 namespace WedLab345.Controllers
@@ -19,11 +20,11 @@ namespace WedLab345.Controllers
             _dbContext = new ApplicationDbContext();
         }
         [HttpPost]
-        public IHttpActionResult Attend([FromBody] int courseId)
+        public IHttpActionResult Attend(AttendanceDto attendanceDto)
         {
             var attendance = new Attendance
             {
-                CourseId = courseId,
+                CourseId = attendanceDto.CourseID,
                 AttendeeId = User.Identity.GetUserId()
             };
             _dbContext.Attendances.Add(attendance);

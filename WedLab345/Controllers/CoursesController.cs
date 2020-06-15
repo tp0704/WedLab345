@@ -24,7 +24,7 @@ namespace WedLab345.Controllers
             };
             return View(viewModel);
         }
-        /*       [Authorize]
+               [Authorize]
                [HttpPost]
                [ValidateAntiForgeryToken]
                public ActionResult Create(CourseViewModel viewModel)
@@ -46,6 +46,6 @@ namespace WedLab345.Controllers
                    _dbContext.SaveChanges();
                    //  return View(viewModel);
                    return RedirectToAction("Index", "Home");
-               }*/
+               }
     }
 }
